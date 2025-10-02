@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-نسخة مبسطة من مشروع اختيار الميزات باستخدام الخوارزمية الوراثية
-هذه النسخة تعمل بدون مكتبات خارجية لأغراض العرض التوضيحي
+Simplified version of the feature selection project using genetic algorithm
+This version works without external libraries for demonstration purposes
 """
 
 import random
@@ -10,11 +10,11 @@ import math
 
 class SimpleGeneticFeatureSelector:
     """
-    تنفيذ مبسط للخوارزمية الوراثية لاختيار الميزات
-    يستخدم دالة fitness مبسطة بدلاً من scikit-learn
+    Simple implementation of genetic algorithm for feature selection
+    Uses simplified fitness function instead of scikit-learn
     """
-    
-    def __init__(self, population_size=20, n_generations=15, 
+
+    def __init__(self, population_size=20, n_generations=15,
                  crossover_rate=0.8, mutation_rate=0.02):
         self.pop_size = population_size
         self.n_gen = n_generations
@@ -22,14 +22,14 @@ class SimpleGeneticFeatureSelector:
         self.mut_rate = mutation_rate
         self.best_chromosome = None
         self.best_fitness = -float('inf')
-        
+
     def _init_population(self, n_features):
-        """إنشاء مجتمع أولي من الكروموسومات"""
+        """Create initial population of chromosomes"""
         population = []
         for _ in range(self.pop_size):
-            # كل كروموسوم هو قائمة من 0 و 1 تمثل الميزات المختارة
+            # Each chromosome is a list of 0s and 1s representing selected features
             chromosome = [random.randint(0, 1) for _ in range(n_features)]
-            # تأكد من وجود ميزة واحدة على الأقل
+            # Ensure at least one feature is selected
             if sum(chromosome) == 0:
                 chromosome[random.randint(0, n_features-1)] = 1
             population.append(chromosome)
@@ -37,162 +37,162 @@ class SimpleGeneticFeatureSelector:
     
     def _fitness(self, chromosome, X, y):
         """
-        دالة fitness مبسطة - في الواقع ستستخدم نموذج تعلم آلة
-        هنا نستخدم دالة تقريبية للعرض التوضيحي
+        Simplified fitness function - in reality would use machine learning model
+        Here we use an approximation function for demonstration purposes
         """
         selected_features = [i for i, gene in enumerate(chromosome) if gene == 1]
         if len(selected_features) == 0:
             return 0
-        
-        # محاكاة دقة النموذج بناءً على عدد الميزات المختارة
-        # في الواقع، ستقوم بتدريب نموذج وحساب الدقة الفعلية
+
+        # Simulate model accuracy based on number of selected features
+        # In reality, you would train a model and calculate actual accuracy
         n_selected = len(selected_features)
         n_total = len(chromosome)
-        
-        # دالة fitness تفضل عدد معقول من الميزات (لا قليل جداً ولا كثير جداً)
-        optimal_ratio = 0.3  # 30% من الميزات
+
+        # Fitness function prefers reasonable number of features (not too few, not too many)
+        optimal_ratio = 0.3  # 30% of features
         ratio = n_selected / n_total
-        
-        # حساب fitness بناءً على قرب النسبة من النسبة المثلى
+
+        # Calculate fitness based on proximity to optimal ratio
         fitness = 1.0 - abs(ratio - optimal_ratio)
-        
-        # إضافة عشوائية صغيرة لمحاكاة تباين الأداء
+
+        # Add small randomness to simulate performance variation
         fitness += random.uniform(-0.1, 0.1)
-        
+
         return max(0, fitness)
-    
+
     def _selection(self, population, fitness_scores):
-        """اختيار الوالدين باستخدام Tournament Selection"""
+        """Parent selection using Tournament Selection"""
         selected = []
         for _ in range(len(population)):
-            # اختيار عشوائي لثلاثة أفراد
+            # Random selection of three individuals
             tournament_size = 3
-            tournament_indices = random.sample(range(len(population)), 
+            tournament_indices = random.sample(range(len(population)),
                                              min(tournament_size, len(population)))
-            # اختيار الأفضل من المجموعة
+            # Select the best from the group
             best_idx = max(tournament_indices, key=lambda i: fitness_scores[i])
-            selected.append(population[best_idx][:])  # نسخة من الكروموسوم
+            selected.append(population[best_idx][:])  # Copy of chromosome
         return selected
     
     def _crossover(self, parent1, parent2):
-        """تهجين بين والدين باستخدام Single Point Crossover"""
+        """Crossover between two parents using Single Point Crossover"""
         if random.random() > self.cx_rate:
             return parent1[:], parent2[:]
-        
+
         crossover_point = random.randint(1, len(parent1) - 1)
         child1 = parent1[:crossover_point] + parent2[crossover_point:]
         child2 = parent2[:crossover_point] + parent1[crossover_point:]
-        
+
         return child1, child2
-    
+
     def _mutation(self, chromosome):
-        """طفرة في الكروموسوم"""
+        """Mutation in chromosome"""
         mutated = chromosome[:]
         for i in range(len(mutated)):
             if random.random() < self.mut_rate:
-                mutated[i] = 1 - mutated[i]  # قلب البت
-        
-        # تأكد من وجود ميزة واحدة على الأقل
+                mutated[i] = 1 - mutated[i]  # Bit flip
+
+        # Ensure at least one feature is selected
         if sum(mutated) == 0:
             mutated[random.randint(0, len(mutated)-1)] = 1
-            
+
         return mutated
     
     def fit(self, X, y, verbose=True):
-        """تدريب الخوارزمية الوراثية"""
-        n_features = len(X[0]) if X else 10  # افتراضي 10 ميزات للعرض
-        
-        # إنشاء المجتمع الأولي
+        """Train the genetic algorithm"""
+        n_features = len(X[0]) if X else 10  # Default 10 features for demo
+
+        # Create initial population
         population = self._init_population(n_features)
-        
+
         if verbose:
-            print(f"بدء الخوارزمية الوراثية مع {self.pop_size} فرد و {n_features} ميزة")
-            print(f"عدد الأجيال: {self.n_gen}")
+            print(f"Starting genetic algorithm with {self.pop_size} individuals and {n_features} features")
+            print(f"Number of generations: {self.n_gen}")
             print("-" * 50)
-        
+
         for generation in range(self.n_gen):
-            # حساب fitness لكل فرد
+            # Calculate fitness for each individual
             fitness_scores = [self._fitness(chrom, X, y) for chrom in population]
-            
-            # تتبع أفضل فرد
+
+            # Track best individual
             best_idx = max(range(len(fitness_scores)), key=lambda i: fitness_scores[i])
             if fitness_scores[best_idx] > self.best_fitness:
                 self.best_fitness = fitness_scores[best_idx]
                 self.best_chromosome = population[best_idx][:]
-            
+
             if verbose and generation % 5 == 0:
                 avg_fitness = sum(fitness_scores) / len(fitness_scores)
                 n_selected = sum(self.best_chromosome)
-                print(f"الجيل {generation:2d}: أفضل fitness = {self.best_fitness:.3f}, "
-                      f"متوسط = {avg_fitness:.3f}, ميزات مختارة = {n_selected}")
-            
-            # اختيار الوالدين
+                print(f"Generation {generation:2d}: Best fitness = {self.best_fitness:.3f}, "
+                      f"Average = {avg_fitness:.3f}, Selected features = {n_selected}")
+
+            # Parent selection
             selected = self._selection(population, fitness_scores)
-            
-            # إنشاء الجيل الجديد
+
+            # Create new generation
             new_population = []
             for i in range(0, len(selected), 2):
                 parent1 = selected[i]
                 parent2 = selected[i+1] if i+1 < len(selected) else selected[0]
-                
+
                 child1, child2 = self._crossover(parent1, parent2)
                 child1 = self._mutation(child1)
                 child2 = self._mutation(child2)
-                
+
                 new_population.extend([child1, child2])
-            
+
             population = new_population[:self.pop_size]
-        
+
         if verbose:
             print("-" * 50)
-            print(f"انتهت الخوارزمية!")
-            print(f"أفضل fitness: {self.best_fitness:.3f}")
-            print(f"عدد الميزات المختارة: {sum(self.best_chromosome)}")
-            print(f"الميزات المختارة: {[i for i, gene in enumerate(self.best_chromosome) if gene == 1]}")
-        
+            print(f"Algorithm completed!")
+            print(f"Best fitness: {self.best_fitness:.3f}")
+            print(f"Number of selected features: {sum(self.best_chromosome)}")
+            print(f"Selected features: {[i for i, gene in enumerate(self.best_chromosome) if gene == 1]}")
+
         return self
     
     def get_selected_features(self):
-        """إرجاع فهارس الميزات المختارة"""
+        """Return indices of selected features"""
         if self.best_chromosome is None:
             return []
         return [i for i, gene in enumerate(self.best_chromosome) if gene == 1]
 
 
 def demo_run():
-    """تشغيل تجريبي للخوارزمية"""
+    """Demo run of the algorithm"""
     print("=" * 60)
-    print("مشروع اختيار الميزات باستخدام الخوارزمية الوراثية")
+    print("Feature Selection Project using Genetic Algorithm")
     print("BIA601 - RAFD")
     print("=" * 60)
     print()
-    
-    # بيانات تجريبية (في الواقع ستأتي من ملف CSV)
-    # محاكاة 100 عينة مع 20 ميزة
+
+    # Demo data (in reality would come from CSV file)
+    # Simulate 100 samples with 20 features
     n_samples, n_features = 100, 20
     X = [[random.uniform(-1, 1) for _ in range(n_features)] for _ in range(n_samples)]
     y = [random.randint(0, 1) for _ in range(n_samples)]
-    
-    print(f"البيانات التجريبية: {n_samples} عينة، {n_features} ميزة")
+
+    print(f"Demo data: {n_samples} samples, {n_features} features")
     print()
-    
-    # إنشاء وتدريب الخوارزمية الوراثية
+
+    # Create and train genetic algorithm
     ga = SimpleGeneticFeatureSelector(
         population_size=20,
         n_generations=15,
         crossover_rate=0.8,
         mutation_rate=0.02
     )
-    
+
     ga.fit(X, y, verbose=True)
-    
+
     print()
     print("=" * 60)
-    print("النتائج النهائية:")
+    print("Final Results:")
     selected_features = ga.get_selected_features()
-    print(f"تم اختيار {len(selected_features)} ميزة من أصل {n_features}")
-    print(f"الميزات المختارة: {selected_features}")
-    print(f"نسبة الاختيار: {len(selected_features)/n_features*100:.1f}%")
+    print(f"Selected {len(selected_features)} features out of {n_features}")
+    print(f"Selected features: {selected_features}")
+    print(f"Selection ratio: {len(selected_features)/n_features*100:.1f}%")
     print("=" * 60)
 
 

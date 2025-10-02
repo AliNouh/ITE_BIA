@@ -1,9 +1,18 @@
-Checklist التسليم - BIA601 (RAFD)
-=================================
-- [x] وجود خوارزمية وراثية تعمل وتستخدم تابع لياقة يعتمد على أداء المصنف.
-- [x] مقارنة بالطرق التقليدية: Lasso, PCA, SelectKBest(chi2), ANOVA.
-- [x] دعم رفع CSV وتشغيل التحليل عبر واجهة Streamlit.
-- [x] تقرير عربي يشرح المنهجية والنتائج (docs/report_arabic.md).
-- [x] سكربت لتوليد الأرشيف ZIP (build_zip.sh).
-- [x] ملف requirements.txt لتثبيت الحزم.
-- [ ] (اختياري) دمج بيانات نصية — لم تُضَف في النسخة الافتراضية.
+# Delivery Checklist - BIA601 (RAFD)
+
+## Core Requirements
+- [x] Working genetic algorithm that uses fitness function based on classifier performance
+- [x] Comparison with traditional methods: Lasso, PCA, SelectKBest(chi2), ANOVA
+- [x] Support for CSV upload and analysis via Streamlit interface
+- [x] English report explaining methodology and results (docs/report_english.md)
+- [x] Script for generating ZIP archive (build_zip.sh)
+- [x] Requirements.txt file for package installation
+
+## Optional Features
+- [ ] Text data integration — not included in default version
+
+## Project Structure Validation
+- [x] Organized folder structure (src/, web/, docs/, examples/)
+- [x] Clean code with proper documentation
+- [x] Working demo script (demo_simple.py)
+- [x] Version control setup with Git

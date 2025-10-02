@@ -1,15 +1,15 @@
-مشروع: اختيار الميزات باستخدام خوارزمية وراثية (GA) — BIA601 (RAFD)
---------------------------------------------------------------
-المحتويات:
-- src/: كود المشروع (GA + مقارنة الأساليب)
-- web/: تطبيق Streamlit لرفع CSV وتشغيل التحليل
-- docs/: تقرير عربي جاهز للطباعة
-- results/: مجلد لحفظ نواتج التشغيل
-- examples/: مكان لوضع عينات البيانات
+# Feature Selection using Genetic Algorithm (GA) — BIA601 (RAFD)
 
-خطوات سريعة للتشغيل:
-1. تثبيت المتطلبات: pip install -r requirements.txt
-2. تشغيل الويب: streamlit run web/app.py
-3. أو تشغيل المقارنات مباشرة: python -m src.compare_methods
+## Project Structure:
+- **src/**: Project code (GA + method comparison)
+- **web/**: Streamlit application for CSV upload and analysis
+- **docs/**: Documentation and reports
+- **results/**: Directory for saving output results
+- **examples/**: Sample data files
 
-ملاحظة: تأكد من أن عمود الهدف في ملفات CSV المرفوعة يسمى 'target' أو تختاره من الواجهة.
+## Quick Start:
+1. Install requirements: `pip install -r requirements.txt`
+2. Run web interface: `streamlit run web/app.py`
+3. Or run comparisons directly: `python -m src.compare_methods`
+
+**Note**: Ensure the target column in uploaded CSV files is named 'target' or select it from the interface.
