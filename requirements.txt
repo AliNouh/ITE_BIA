@@ -1,0 +1,24 @@
+# Core dependencies - carefully versioned for stability
+numpy>=1.20.0,<2.0.0     # Array operations and numerical computing
+pandas>=1.3.0,<2.0.0     # Data manipulation and analysis
+scikit-learn>=1.0.0      # Machine learning algorithms and utilities
+
+# Visualization and reporting
+streamlit>=1.15.0        # Interactive web interface
+plotly>=5.3.0           # Interactive plots
+matplotlib>=3.4.0       # Static plotting
+seaborn>=0.11.0        # Statistical visualizations
+weasyprint>=54.0       # PDF report generation
+
+# Development and testing
+pytest>=7.0.0          # Unit testing framework
+pytest-cov>=2.12.0     # Test coverage reporting
+black>=21.5b2         # Code formatting
+pylint>=2.8.2         # Code quality checking
+
+# Performance optimization
+joblib>=1.0.0         # Parallel processing
+psutil>=5.8.0         # System and process utilities
+
+# Deployment
+gunicorn==20.1.0      # WSGI HTTP Server
