@@ -1,0 +1,9 @@
+# Testing dependencies - currently used in project
+-r requirements-minimal.txt     # Include all minimal requirements
+
+# Testing framework
+pytest>=7.0.0                  # Used in test_genetic_selector.py and test_pure_genetic_selector.py
+
+# Optional visualization enhancements
+seaborn>=0.11.0              # Used in report_generator.py (optional)
+weasyprint>=54.0             # Used in report_generator.py (optional for PDF generation)
